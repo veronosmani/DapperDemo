@@ -5,10 +5,13 @@
 }
 
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div style="display:flex; justify-content:end; width: 100%">
+    <button style="border: 2px solid black; border-radius:5px; background-color: white">
+        <p style="text-decoration:none; margin:0px; padding:0px;">
+            <a style="text-decoration:none; color: black; font-size:14px;" asp-action="Create">Create New</a>
+        </p>
+    </button>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -49,9 +52,9 @@
                 @Html.DisplayFor(modelItem => item.PostalCode)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CompanyId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
+                <a asp-action="Edit" style="text-decoration:none;" asp-route-id="@item.CompanyId">Edit</a> |
+                <a asp-action="Details" style="text-decoration:none;" asp-route-id="@item.CompanyId">Details</a> |
+                    <a asp-action="Delete" style="text-decoration:none; color: red;" asp-route-id="@item.CompanyId">Delete</a>
             </td>
         </tr>
 }

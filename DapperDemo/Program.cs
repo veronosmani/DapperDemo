@@ -1,24 +1,36 @@
-using DapperDemo.Data;
+﻿using DapperDemo.Data;
 using DapperDemo.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Database Context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();  
+// Repositories
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<TokenService>();
 
-// Add services to the container.
+// MVC + Session ✅
 builder.Services.AddControllersWithViews();
+
+// ✅ Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -27,8 +39,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// ✅ Use session before auth
+app.UseSession(); // 👈 Must come before UseAuthorization
+
 app.UseAuthorization();
 
+// MVC Route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
