@@ -15,6 +15,8 @@ builder.Services.AddScoped<TokenService>();
 
 // MVC + Session ✅
 builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(); // Add session services
 
 // ✅ Add session services
 builder.Services.AddDistributedMemoryCache();

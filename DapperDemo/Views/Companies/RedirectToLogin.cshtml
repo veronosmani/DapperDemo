@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Authentication Required";
+}
+
+<div class="redirect-container">
+    <h2>You must be signed in to access this page.</h2>
+    <a href="/Auth/Login" class="redirect-button">Go to Login</a>
+</div>
+
+<style>
+    .redirect-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 60vh;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .redirect-button {
+        padding: 10px 20px;
+        background-color: #6c63ff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.2s ease;
+    }
+
+        .redirect-button:hover {
+            background-color: #4f4dcf;
+            color: white;
+        }
+</style>

@@ -9,19 +9,6 @@ public class AuthController : Controller
         _repo = repo;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Register(string username, string email, string password)
-    {
-        if (await _repo.UserExists(username))
-        {
-            TempData["RegisterError"] = "User already exists";
-        return RedirectToAction("Register");
-        }
-
-        var user = new User { Username = username, Email = email };
-        await _repo.Register(user, password);
-        return RedirectToAction("Login");
-    }
     [HttpGet]
     public IActionResult Login()
     {
@@ -31,17 +18,6 @@ public class AuthController : Controller
         return View();
     }
 
-    [HttpGet]
-    public IActionResult Register()
-    {
-        if (HttpContext.Session.GetInt32("UserId") != null)
-            return RedirectToAction("Index", "Home");
-
-        return View();
-    }
-
-
-    [HttpPost]
     [HttpPost]
     public async Task<IActionResult> Login(string username, string password)
     {
@@ -58,10 +34,32 @@ public class AuthController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    public IActionResult Logout()
+    [HttpGet]
+    public IActionResult Register()
     {
-        HttpContext.Session.Clear(); // or .Remove("UserId")
+        if (HttpContext.Session.GetInt32("UserId") != null)
+            return RedirectToAction("Index", "Home");
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Register(string username, string email, string password)
+    {
+        if (await _repo.UserExists(username))
+        {
+            TempData["RegisterError"] = "User already exists";
+            return RedirectToAction("Register");
+        }
+
+        var user = new User { Username = username, Email = email };
+        await _repo.Register(user, password);
         return RedirectToAction("Login");
     }
 
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+    }
 }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DapperDemo.Data;
 using DapperDemo.Models;
 using DapperDemo.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DapperDemo.Controllers
 {
@@ -30,16 +25,11 @@ namespace DapperDemo.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var company = _compRepo.Find(id.GetValueOrDefault());
-
+            var company = _compRepo.Find(id.Value);
             if (company == null)
-            {
                 return NotFound();
-            }
 
             return View(company);
         }
@@ -51,8 +41,6 @@ namespace DapperDemo.Controllers
         }
 
         // POST: Companies/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CompanyId,Name,Address,City,State,PostalCode")] Company company)
@@ -62,38 +50,42 @@ namespace DapperDemo.Controllers
         }
 
         // GET: Companies/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return View("RedirectToLogin");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var company = _compRepo.Find(id.GetValueOrDefault());
+            var company = _compRepo.Find(id.Value);
             if (company == null)
             {
                 return NotFound();
             }
+
             return View(company);
         }
 
         // POST: Companies/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CompanyId,Name,Address,City,State,PostalCode")] Company company)
         {
+
             if (id != company.CompanyId)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 _compRepo.Update(company);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(company);
         }
 
@@ -101,13 +93,10 @@ namespace DapperDemo.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            _compRepo.Remove(id.GetValueOrDefault());
-
+            _compRepo.Remove(id.Value);
             return RedirectToAction(nameof(Index));
         }
     }
-    }
+}
