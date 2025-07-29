@@ -4,60 +4,100 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Company Details</h1>
 
-<div>
-    <h4>Company</h4>
+<div class="details-container">
+    <h4 style="text-transform: capitalize">
+        Company : @Html.DisplayFor(model => model.Name)
+    </h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Address)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.City)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.City)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.State)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.State)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PostalCode)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PostalCode)
         </dd>
     </dl>
 </div>
-<div style="display: flex; flex-direction: row; gap: 15px;">
-        <a asp-action="Edit" asp-route-id="@Model.CompanyId" class="button" >Edit</a>
-        <a asp-action="Index" class="button">Back to List</a>
+
+<div class="button-group">
+    <a asp-action="Edit" asp-route-id="@Model.CompanyId" class="button">Edit</a>
+    <a asp-action="Index" class="button">Back to List</a>
 </div>
+
 <style>
-    .button {
+    .details-container {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    h4 {
+        font-size: 20px;
+        color: #555;
+    }
+
+    .row dt {
+        font-weight: bold;
+        color: #444;
+    }
+
+    .row dd {
+        margin-bottom: 10px;
+    }
+
+    .button-group {
         display: flex;
-        width: 100px !important;
-        border: 1px solid black;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .button {
+        padding: 8px 20px;
+        border: 1px solid #333;
         background-color: white;
         text-decoration: none;
-        color: black;
-        justify-content:center;
+        color: #333;
+        border-radius: 5px;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        font-weight: 500;
     }
-    .button:hover {
-        color: black;
-        text-decoration: none;
-    }
+
+        .button:hover {
+            background-color: #333;
+            color: white;
+        }
 </style>

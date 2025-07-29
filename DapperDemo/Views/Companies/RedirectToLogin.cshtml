@@ -4,7 +4,10 @@
 
 <div class="redirect-container">
     <h2>You must be signed in to access this page.</h2>
-    <a href="/Auth/Login" class="redirect-button">Go to Login</a>
+    <div style="display: flex; flex-direction: row; gap: 20px">
+        <a href="/Auth/Login" class="redirect-button">Go to Login</a>
+        <a href="/Companies/Index" class="redirect-button">Back</a>
+    </div>
 </div>
 
 <style>
@@ -15,7 +18,7 @@
         justify-content: center;
         height: 60vh;
         text-align: center;
-        gap: 10px;
+        gap: 15px;
     }
 
     .redirect-button {
@@ -27,6 +30,7 @@
         text-decoration: none;
         font-weight: bold;
         transition: background-color 0.2s ease;
+        width: 200px;
     }
 
         .redirect-button:hover {
